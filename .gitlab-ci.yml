@@ -1,0 +1,36 @@
+variables:
+  BINARIES_DROP: "C:\\inetpub\\wwwroot"
+  BINARIES_HREF: "http://bison.isat.xyz"
+
+build:
+  script:
+    - cd server
+    - call ant distribute
+    - cd ..\client
+    - call npm install
+    - call npm run build
+    - cd ..
+    - mkdir %BINARIES_DROP%\Bison-%CI_BUILD_ID%
+    - mkdir %BINARIES_DROP%\Bison-%CI_BUILD_ID%\server
+    - mkdir %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client
+    - mkdir %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\css
+    - mkdir %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\scripts
+    - copy server\bin\RestaurantServer.jar %BINARIES_DROP%\Bison-%CI_BUILD_ID%\server
+    - xcopy /y server\bin\RestaurantServer.jar C:\Release\L4J-WD\RestaurantServer.jar
+    - C:\Release\L4J\launch4j C:\Release\L4J-WD\config.xml
+    - copy C:\Release\L4J-WD\RestaurantServer.exe %BINARIES_DROP%\Bison-%CI_BUILD_ID%\server
+    - copy client\*.html %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client
+    - copy client\css\*.css %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\css
+    - copy client\scripts\*.js %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\scripts
+    - mkdir %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\bin
+    - mkdir %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\bin\locales
+    - mkdir %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\bin\css
+    - mkdir %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\bin\scripts
+    - copy C:\Release\NWJS\*.* %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\bin
+    - copy C:\Release\NWJS\locales\*.* %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\bin\locales
+    - copy client\*.html %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\bin
+    - copy client\*.json %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\bin
+    - copy client\css\*.css %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\bin\css
+    - copy client\scripts\*.js %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\bin\scripts
+    - C:\Release\7-Zip\7z.exe a %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\Client.zip %BINARIES_DROP%\Bison-%CI_BUILD_ID%\client\bin\*
+    - echo Binaries available at %BINARIES_HREF%/Bison-%CI_BUILD_ID%/

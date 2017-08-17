@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse.ant.import?>
+<project>
+	<target name="distribute" depends="build">
+        <delete file="bin/RestaurantServer.jar"/>
+		<jar jarfile="bin/RestaurantServer.jar" basedir="bin">
+		    <restrict>
+			    <archives>
+				    <zips>
+					    <fileset dir="." includes="*.jar"/>
+				    </zips>
+			    </archives>
+		    </restrict>
+			<manifest>
+				<attribute name="Main-Class" value="comp2541.bison.restaurant.Main"/>
+			</manifest>
+		</jar>
+	</target>
+</project>

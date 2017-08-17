@@ -1,0 +1,7 @@
+# Ignore OS X Finder files
+.DS_Store
+# Ignore logs
+*.log
+*.out
+# Ignore the DB file
+*.db

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Risotto</title>
+
+    <!-- 'Add to Home Screen' on iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="Icon.jpg">
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="scripts/crud.js"></script>
+    <script type="text/javascript">
+        var href = window.location.href;
+        if(href.indexOf("?") != -1)
+            href = href.substr(href.indexOf("?") + 1);
+        else
+            href = "localhost";
+
+        var server = new CRUDResource("http://" + href + ":8080", ["bookings", "menu", "orders", "tables"]);
+    </script>
+    <script type="text/javascript" src="scripts/booking.js"></script>
+    <script type="text/javascript" src="scripts/rivets.bundled.js"></script>
+    <script type="text/javascript" src="scripts/model-main.js"></script>
+    <script type="text/javascript" src="scripts/model-menu.js"></script>
+    <script type="text/javascript" src="scripts/model-pay.js"></script>
+    <script type="text/javascript" src="scripts/model-report.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div id="mainScreen">
+   <div id="header">
+       <h1>Bookings</h1>
+       <h2>{now | time}</h2>
+       <h3>{now | shortDate}</h3>
+
+       <i id="bookingBefore" class="material-icons" onclick="bookingBefore(event)">keyboard_arrow_left</i>
+       <i id="bookingAfter" class="material-icons" onclick="bookingAfter(event)">keyboard_arrow_right</i>
+       <i id="reportOpen" class="material-icons" onclick="reportOpen(event)">book</i>
+       <i id="closeApp" class="material-icons" onclick="appClose(event)">clear</i>
+   </div>
+
+    <div id="bookingGrid">
+        <table id="calendar">
+            <tr>
+                <th rv-each-table="tables" class="header">{table.description}</th>
+            </tr>
+            <tr rv-each-time="timescale" rv-hours="time.hour" rv-mins="time.mins">
+                <td rv-each-table="time.tables" rv-table="table.id" onclick="createBooking(event)">
+                    <div class="booking" rv-each-booking="table.bookings" rv-id="booking.referenceNumber" onclick="showOrderScreen(event)">
+                       <div class="bookingTime">
+                           {booking.date | time}<br>
+                       </div>
+                       <div class="customerName">
+                        <strong>{booking.customerName}</strong>
+                       </div>
+                       <div class ="otherInfo">
+                           {booking.partySize} customers
+                            <br>
+                            {booking.phoneNumber}
+                            <br> 
+                       </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <ul id="timescale">
+            <li rv-each-hour="hours">{hour}</li>
+        </ul>
+
+        <form id="bookingCreation" class="hidden">
+            <div id="time">{activeSlot.hour}:{activeSlot.mins | padZeroes}</div>
+            <i id="bookingCancel" class="material-icons" onclick="cancelBooking(event)">close</i>
+            <i id="bookingConfirm" class="material-icons" onclick="confirmBooking(event)">check</i>
+
+            <input type="text" id="name" placeholder="Name" value="Walk In">
+            <br>
+
+            <input type="tel" id="phone" placeholder="Phone">
+            <br>
+
+            <input type="number" id="party" placeholder="Party size" min=1 step=1>
+            <br>
+
+            <input type="email" id="email" placeholder="Email">
+            <br>
+        </form>
+    </div>
+
+</div>
+<div id="menuScreen">
+    <div class="leftPanel">
+        <h2>Bill for table {table.description}</h2>
+        <div class="meals">
+            <div rv-each-meal="order" class="meal">
+                <h4>{meal.name}</h4>
+                <div class="counter">
+                    <i class="less material-icons" onclick="decreaseCount(event)">remove</i>
+                    <input type="text" rv-value="meal.count">
+                    <i class="more material-icons" onclick="increaseCount(event)">add</i>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="total">
+            <h4>Total</h4>
+            <h5>{orderTotal | gbp}</h5>
+        </div>
+        <i id="orderConfirm" class="material-icons" onclick="confirmOrder()">done</i>
+        <i id="orderPay" class="material-icons" onclick="displayPayment()">payment</i>
+    </div>
+    <div class="rightPanel">
+        <i id="orderDiscard" class="material-icons" onclick="discardOrder()">clear</i>
+        <h2>Menu</h2>
+        <div>
+            <div rv-each-category="menu">
+                <h3>{category.name}</h3>
+                <div>
+                    <div class="meal" rv-each-meal="category.meals" rv-category="meal.category" onclick="orderMeal(event)">
+                        <h4>{meal.name}</h4>
+                        <h5>{meal.description}</h5>
+                        <span class="price">{meal.price | gbp}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="payScreen">
+    <i id="paymentDiscard" class="material-icons" onclick="discardPayment()">clear</i>
+    <div id="payPage">
+        <form id="payForm">
+            <h1>
+                Paying
+                <br>
+                <div id="amount">{orderTotal | gbp}</div>
+            </h1>
+
+
+            <div id="bottom">
+                <div id="cardNameWrapper">
+                    <label for="cardName">Cardholder name</label>
+                    <input id="cardName" type="text" onkeypress="return onlyAlpha(event);">
+                </div>
+
+                <i id="cardVerify" class="material-icons">check</i>
+                <div id="cardNumberWrapper">
+                    <label for="number">Card Number</label>
+                    <input id="number" type="text" style="width: 200px;" onkeypress="return onlyNumber(event);" oninput="verifyCard(event)" maxlength="16">
+                </div>
+                <br id="terribleLayout" />
+
+                <div id="expiryDate">
+                    <label for="month">Expiry date</label>
+                    <select id="month">
+                        <option>month</option>
+                        <option rv-each-month="months">{month}</option>
+                    </select>
+                    <select id="year">
+                        <option>year</option>
+                        <option rv-each-year="years">{year}</option>
+                    </select>
+                </div>
+
+                <i id="ccvVerify" class="material-icons">check</i>
+                <div id="cvvWrapper">
+                    <label for="cvv">CVV</label>
+                    <input id="cvv" type="text" maxlength="4" onkeypress="return onlyNumber(event);" oninput="verifyCCV(event);">
+                </div>
+                <br>
+                <button id="payConfirm" type="button" onclick="confirmPayment()">Pay</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div id="reportScreen">
+    <i id="reportClose" class="material-icons" onclick="reportClose(event)">clear</i>
+    <i id="dateBefore" class="material-icons" onclick="reportBefore(event)">keyboard_arrow_left</i>
+    <i id="dateAfter" class="material-icons" onclick="reportAfter(event)">keyboard_arrow_right</i>
+    <div id="monthSummary">
+        <h1>Financial Summary</h1>
+        <h2>
+            {month} takings
+            &nbsp;
+            <span class="total" rv-text="total | gbp"></span>
+        </h2>
+        <table>
+            <tr>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+            </tr>
+            <tr rv-each-week="weeks">
+                <td rv-each-day="week" onclick="dayOpen(event)">
+                    <span class="day">{day.day}</span>
+                    <div class="total" rv-unless="day.empty" rv-text="day.total | gbp"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="daySummary">
+        <div class="header">
+            <h1>
+                {month} {dayOfMonth}{dayOfMonth | nth}
+                <br>
+                <span class="total">{total}</span>
+            </h1>
+            <i id="dayClose" class="material-icons" onclick="dayClose()">clear</i>
+        </div>
+
+        <div class="body">
+            <div rv-each-booking="bookings">
+                <h2>Table {booking.table.description}, {booking.date | time} - {booking.endingDate | time}</h2>
+                <div class="meal" rv-each-item="booking.items">
+                    <h4>{item.name}</h4>
+                    <h5>x{item.count}</h5>
+                    <span class="price">{item.price | gbp}</span>
+                </div>
+                <div class="meal">
+                    <h4>Total</h4>
+                    <h5>&nbsp;</h5>
+                    <span class="total">{booking.order.total | gbp}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

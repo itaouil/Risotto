@@ -1,0 +1,15 @@
+1|1(Small)|2
+2|2(Small)|2
+3|3(Small)|3
+4|4(Small)|3
+5|5(Small)|3
+6|6(Medium)|4
+7|7(Medium)|4
+8|8(Medium)|4
+9|9(Medium)|5
+10|10(Medium)|6
+11|11(Large)|7
+12|12(Large)|7
+13|13(Large)|8
+14|14(Large)|9
+15|15(Large)|10

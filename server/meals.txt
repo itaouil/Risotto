@@ -1,0 +1,13 @@
+1|Caprese Salad|Fresh Basilic with buffalo mozarella and tomato|595|Starters
+2|Insalata di mozarella e melone|Fresh melon, baby mozzarella and Parma ham with fresh extra virgin olive oil|800|Starters
+3|Caprino Impanato|Breaded goat’s cheese, deep fried, topped with roast peppers and green pesto|900|Starters
+4|Fritto misto|Lightly fried squid and king prawns with zucchini and garlic mayonnaise|895|Starters
+5|Pollo Duchessa|Chicken fillet with parma ham, fresh asparagus and mozzarella cheese in a creamy sauce|1295|Main
+6|Bistecca di Manzo al Pepe|8oz fillet steak, cooked with brandy, cream and green peppercorns served with french fries|2095|Main
+7|Grigliata di Pesce|Mixed grill of salmon, sea bass, squid and swordfish served with a garlic lemon mayonnaise|1795|Main
+8|Spaghetti Bolognese|Traditional Italian bolognese sauce|895|Main
+9|Risotto Toscana|Risotto with chicken, garlic, mushrooms, smoked bacon and asparagus in a creamy tomato sauce|995|Main
+10|Ice cream|Chocolate Fudge Cake|350|Dessert
+11|Warm Brownie|Chocolate with Caramel and Peanuts|450|Dessert
+12|Aranciata|Fresh Orange Juice|295|Drinks
+13|Champagne|Frech reservoir|3995|Drinks

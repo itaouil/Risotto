@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="jetty-server-9.3.7.v20160115.jar"/>
+	<classpathentry kind="lib" path="jetty-util-9.3.7.v20160115.jar"/>
+	<classpathentry kind="lib" path="jetty-http-9.3.7.v20160115.jar"/>
+	<classpathentry kind="lib" path="jetty-servlet-9.3.7.v20160115.jar"/>
+	<classpathentry kind="lib" path="jetty-servlets-9.3.7.v20160115.jar"/>
+	<classpathentry kind="lib" path="servlet-api-3.1.jar"/>
+	<classpathentry kind="lib" path="jetty-io-9.3.7.v20160115.jar"/>
+	<classpathentry kind="lib" path="jackson-core-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="jackson-mapper-asl-1.9.3.jar"/>
+	<classpathentry kind="lib" path="httpclient-4.5.2.jar"/>
+	<classpathentry kind="lib" path="httpcore-4.4.4.jar"/>
+	<classpathentry kind="lib" path="sqlite-jdbc-3.7.2.jar"/>
+	<classpathentry kind="lib" path="slf4j-api-1.7.18.jar"/>
+	<classpathentry kind="lib" path="log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="slf4j-log4j12-1.7.18.jar"/>
+	<classpathentry kind="lib" path="commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="jjwt-0.6.0.jar"/>
+	<classpathentry kind="lib" path="json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="sendgrid-java.jar"/>
+	<classpathentry kind="lib" path="twilio-java-sdk-6.3.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
